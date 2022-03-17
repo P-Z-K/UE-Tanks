@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "HealthComponent.h"
 #include "GameFramework/Pawn.h"
 #include "BasePawn.generated.h"
 
+class UHealthComponent;
 class UCapsuleComponent;
 
 UCLASS()

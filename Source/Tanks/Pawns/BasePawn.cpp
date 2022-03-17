@@ -3,9 +3,10 @@
 
 #include "BasePawn.h"
 
-#include "BaseProjectile.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Tanks/Core/HealthComponent.h"
+#include "Tanks/Projectile/BaseProjectile.h"
 
 // Sets default values
 ABasePawn::ABasePawn()

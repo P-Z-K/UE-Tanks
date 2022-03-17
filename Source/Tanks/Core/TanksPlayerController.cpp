@@ -3,8 +3,6 @@
 
 #include "TanksPlayerController.h"
 
-#include "Tank.h"
-
 void ATanksPlayerController::ToggleInput(bool bEnableInput)
 {
 	auto CachedPawn = GetPawn();

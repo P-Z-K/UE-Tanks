@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Tank.h"
-#include "Turret.h"
 #include "GameFramework/GameModeBase.h"
 #include "TanksGameMode.generated.h"
 
+class ATanksPlayerController;
+class ATank;
+class UStartGameWidgetBase;
 /**
  * 
  */

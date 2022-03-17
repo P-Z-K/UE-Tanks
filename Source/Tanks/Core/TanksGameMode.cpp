@@ -3,9 +3,12 @@
 
 #include "TanksGameMode.h"
 
-#include "EnemiesSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "TanksPlayerController.h"
+#include "Blueprint/UserWidget.h"
+#include "Tanks/Enemy/EnemiesSubsystem.h"
+#include "Tanks/Pawns/Tank.h"
+#include "Tanks/Widgets/StartGameWidgetBase.h"
 
 void ATanksGameMode::DisplayCountdown()
 {

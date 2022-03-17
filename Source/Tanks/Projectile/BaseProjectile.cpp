@@ -3,7 +3,6 @@
 
 #include "BaseProjectile.h"
 
-#include "Tank.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 

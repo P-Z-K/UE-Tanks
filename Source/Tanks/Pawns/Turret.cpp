@@ -4,11 +4,10 @@
 #include "Turret.h"
 
 #include "DrawDebugHelpers.h"
-#include "EnemiesSubsystem.h"
 #include "Tank.h"
-#include "TanksGameMode.h"
-#include "TanksPlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "Tanks/Core/TanksPlayerController.h"
+#include "Tanks/Enemy/EnemiesSubsystem.h"
 
 void ATurret::BeginPlay()
 {

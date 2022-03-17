@@ -16,8 +16,6 @@ class TANKS_API ABaseProjectile : public AActor
 public:
 	ABaseProjectile();
 
-	
-
 protected:
 	virtual void BeginPlay() override;
 
