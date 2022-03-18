@@ -24,5 +24,5 @@ void UHealthComponent::ApplyDamage(AActor* DamagedActor, float Damage, const UDa
 		if (Health <= 0.f)
 			OnHealthWentBelowZero.Broadcast();
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Current health: %f"), Health);
+	UE_LOG(LogTemp, Warning, TEXT("Object %s has: %f HP"), *GetOwner()->GetName(), Health);
 }

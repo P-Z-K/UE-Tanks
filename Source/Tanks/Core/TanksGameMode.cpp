@@ -10,6 +10,18 @@
 #include "Tanks/Pawns/Tank.h"
 #include "Tanks/Widgets/StartGameWidgetBase.h"
 
+void ATanksGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	HandlePreStart();
+}
+
+void ATanksGameMode::HandlePreStart()
+{
+	DisplayCountdown();
+	PrepareLevel();
+}
+
 void ATanksGameMode::DisplayCountdown()
 {
 	StartGameWidgetInstance = CreateWidget<UStartGameWidgetBase>(GetWorld(), CountdownWidget);
@@ -18,18 +30,14 @@ void ATanksGameMode::DisplayCountdown()
 	StartGameWidgetInstance->OnCountdownEnded.AddDynamic(this, &ATanksGameMode::HandleGameStart);
 }
 
-void ATanksGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-	DisplayCountdown();
-	PrepareLevel();
-}
-
 void ATanksGameMode::PrepareLevel()
 {
-	PlayerController = Cast<ATanksPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	PlayerController = Cast<ATanksPlayerController>(GetWorld()->GetFirstPlayerController());
 	if (!PlayerController)
+	{
+		UE_LOG(LogTemp, Fatal, TEXT("PlayerController is null"));
 		return;
+	}
 
 	PlayerController->ToggleInput(false);
 	PlayerController->SetVisibility(false);
@@ -39,19 +47,23 @@ void ATanksGameMode::PrepareLevel()
 
 void ATanksGameMode::HandleGameStart()
 {
-	StartGameWidgetInstance->RemoveFromViewport();
-	LaunchPlayer();
+	if (StartGameWidgetInstance)
+	{
+		StartGameWidgetInstance->RemoveFromViewport();
+	}
 	
+	EnablePlayer();
+
 	Player = Cast<ATank>(PlayerController->GetPawn());
 
 	Player->OnTankDie.AddUObject(this, &ATanksGameMode::HandleGameOver);
 	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->OnAllEnemiesDied.AddUObject(this, &ATanksGameMode::HandleWin);
-	
+
 	GameOverWidgetInstance = CreateWidget<UUserWidget>(PlayerController, GameOverWidget);
 	WinWidgetInstance = CreateWidget<UUserWidget>(PlayerController, WinWidget);
 }
 
-void ATanksGameMode::LaunchPlayer()
+void ATanksGameMode::EnablePlayer()
 {
 	PlayerController->ToggleTicking(true);
 	PlayerController->SetVisibility(false);
@@ -66,13 +78,6 @@ void ATanksGameMode::HandleGameOver()
 	DisablePlayer();
 }
 
-void ATanksGameMode::HandleWin()
-{
-	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
-	WinWidgetInstance->AddToViewport();
-	DisablePlayer();
-}
-
 void ATanksGameMode::DisablePlayer()
 {
 	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->OnAllEnemiesDied.RemoveAll(this);
@@ -81,3 +86,12 @@ void ATanksGameMode::DisablePlayer()
 	PlayerController->SetVisibility(true);
 	PlayerController->ToggleInput(false);
 }
+
+void ATanksGameMode::HandleWin()
+{
+	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
+	WinWidgetInstance->AddToViewport();
+	DisablePlayer();
+}
+
+

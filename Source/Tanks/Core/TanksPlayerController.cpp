@@ -6,6 +6,12 @@
 void ATanksPlayerController::ToggleInput(bool bEnableInput)
 {
 	auto CachedPawn = GetPawn();
+	if (!CachedPawn)
+	{
+		UE_LOG(LogTemp, Fatal, TEXT("My pawn is null"));
+		return;
+	}
+	
 	if (bEnableInput)
 	{
 		CachedPawn->EnableInput(this);

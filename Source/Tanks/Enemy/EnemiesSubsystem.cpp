@@ -19,6 +19,8 @@ int UEnemiesSubsystem::GetEnemiesCount() const
 
 void UEnemiesSubsystem::OnEnemyDied(ATurret* DiedEnemy)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Enemy %s has died!"), *DiedEnemy->GetName());
+
 	Enemies.Remove(DiedEnemy);
 	DiedEnemy->OnTurretDie.Clear();
 	DiedEnemy->Destroy();
@@ -26,6 +28,4 @@ void UEnemiesSubsystem::OnEnemyDied(ATurret* DiedEnemy)
 	{
 		OnAllEnemiesDied.Broadcast();
 	}
-		
-	UE_LOG(LogTemp, Warning, TEXT("Enemy has died!"));
 }

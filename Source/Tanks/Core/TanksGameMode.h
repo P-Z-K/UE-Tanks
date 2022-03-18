@@ -17,37 +17,38 @@ class TANKS_API ATanksGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
-public:
-	void DisplayCountdown();
+protected:
 	virtual void BeginPlay() override;
-private:
+	
+	void HandlePreStart();
+	void PrepareLevel();
+	void DisplayCountdown();
+	void EnablePlayer();
+	void HandleGameOver();
+	void HandleWin();
+	void DisablePlayer();
+
+	UFUNCTION()
+	void HandleGameStart();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float StartDelay = 10.f;
-
+	
 	UPROPERTY()
 	UStartGameWidgetBase* StartGameWidgetInstance = nullptr;
 	
-	void PrepareLevel();
-	UFUNCTION()
-	void HandleGameStart();
-	
-	void LaunchPlayer();
-	void HandleGameOver();
-	void HandleWin();
-
-	void DisablePlayer();
-
 	UPROPERTY()
 	ATanksPlayerController* PlayerController = nullptr;
+	
 	UPROPERTY()
 	ATank* Player = nullptr;
-
+	
 	UPROPERTY()
 	UUserWidget* GameOverWidgetInstance = nullptr;
+	
 	UPROPERTY()
 	UUserWidget* WinWidgetInstance = nullptr;
-
-protected:
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UUserWidget> GameOverWidget;
 

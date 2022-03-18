@@ -17,7 +17,7 @@ class TANKS_API UEnemiesSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
-private:
+protected:
 	UPROPERTY()
 	TArray<ATurret*> Enemies;
 
