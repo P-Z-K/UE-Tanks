@@ -20,6 +20,8 @@ protected:
 	
 	void RotateTurret(const FVector& To);
 	void Fire();
+
+	UFUNCTION()
 	virtual void OnDie();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
