@@ -14,14 +14,16 @@ class TANKS_API ABasePawn : public APawn
 {
 	GENERATED_BODY()
 
-public:
+protected:
 	ABasePawn();
 	virtual void BeginPlay() override;
-	virtual void OnDie();
-
-protected:
+	
 	void RotateTurret(const FVector& To);
 	void Fire();
+	virtual void OnDie();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TurretRotationSpeed = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UCapsuleComponent* CapsuleComponent = nullptr;
@@ -49,8 +51,4 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UCameraShakeBase> DeathCameraShake = nullptr;
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float TurretRotationSpeed = 0.f;
 };

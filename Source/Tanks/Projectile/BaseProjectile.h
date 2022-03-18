@@ -13,12 +13,17 @@ class TANKS_API ABaseProjectile : public AActor
 {
 	GENERATED_BODY()
 
-public:
-	ABaseProjectile();
-
 protected:
+	ABaseProjectile();
 	virtual void BeginPlay() override;
 
+	FTimerHandle AutoDestructionTimerHandle;
+	void DestroySelf();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpluse,
+			   const FHitResult& Hit);
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* Model = nullptr;
 
@@ -33,11 +38,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UCameraShakeBase> HitCameraShake = nullptr;
-
-private:
-	FTimerHandle AutoDestructionTimerHandle;
-	void DestroySelf();
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	UParticleSystem* HitParticle = nullptr;
 
@@ -52,8 +53,4 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float AutoDestructionAfterInSeconds = 0.f;
-	
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpluse,
-	           const FHitResult& Hit);
 };

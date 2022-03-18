@@ -17,17 +17,15 @@ public:
 	FOnHealthWentBelowZero OnHealthWentBelowZero;
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
-private:
+	UFUNCTION()
+	void ApplyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator,
+					 AActor* DamageCauser);
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float MaxHealth = 100.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float Health = 0.f;
-
-	UFUNCTION()
-	void ApplyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator,
-	                 AActor* DamageCauser);
 };

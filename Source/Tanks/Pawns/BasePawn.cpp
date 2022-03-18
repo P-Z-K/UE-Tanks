@@ -49,9 +49,9 @@ void ABasePawn::RotateTurret(const FVector& To)
 {
 	FVector TargetDirection = To - TurretMesh->GetComponentLocation();
 	TargetDirection.Normalize();
-	FRotator TargetRotation(0.f, TargetDirection.Rotation().Yaw, 0.f);
+	FRotator RotationToTarget(0.f, TargetDirection.Rotation().Yaw, 0.f);
 	auto InterpolatedRotation = FMath::RInterpConstantTo(TurretMesh->GetComponentRotation(),
-	                                                     TargetRotation,
+	                                                     RotationToTarget,
 	                                                     UGameplayStatics::GetWorldDeltaSeconds(this),
 	                                                     TurretRotationSpeed);
 	TurretMesh->SetWorldRotation(InterpolatedRotation);

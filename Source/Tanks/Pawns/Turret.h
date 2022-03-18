@@ -14,24 +14,14 @@ UCLASS()
 class TANKS_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
-
+	
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float ShootingDistance = 0.f;
-
+	virtual void OnDie() override;
 	FOnTurretDie OnTurretDie;
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
-	virtual void OnDie() override;
-
-private:
-	UPROPERTY()
-	class ATanksPlayerController* PlayerController = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
-	bool bEnableDebuggingShootingDistance = false;
 
 
 	void WatchOver();
@@ -43,11 +33,16 @@ private:
 	void ToggleTimer(bool bShouldBeActivated);
 
 	FTimerHandle FireRateTimerHandle;
-	
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float FireRate = 2.f;
+	
+	UPROPERTY()
+	class ATanksPlayerController* PlayerController = nullptr;
 
-	
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
+	bool bEnableDebuggingShootingDistance = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ShootingDistance = 0.f;
 };

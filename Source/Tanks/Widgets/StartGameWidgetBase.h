@@ -16,20 +16,20 @@ class TANKS_API UStartGameWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 
-protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
-	UTextBlock* CountdownText = nullptr;
-
-	UFUNCTION(BlueprintCallable)
-	void OnCountdownEnd();
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void UpdateUI();
-	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintCallable, BlueprintAssignable)
 	FOnCountdownEnded OnCountdownEnded;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartCountdown(float Time);
+
+protected:
+	UFUNCTION(BlueprintCallable)
+	void OnCountdownEnd();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void UpdateUI();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	UTextBlock* CountdownText = nullptr;
 };

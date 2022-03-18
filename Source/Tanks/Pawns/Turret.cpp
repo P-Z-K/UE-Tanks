@@ -14,10 +14,10 @@ void ATurret::BeginPlay()
 	Super::BeginPlay();
 	PlayerController = Cast<ATanksPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
 
-	UEnemiesSubsystem* system = GetWorld()->GetSubsystem<UEnemiesSubsystem>();
-	if (system)
+	UEnemiesSubsystem* System = GetWorld()->GetSubsystem<UEnemiesSubsystem>();
+	if (System)
 	{
-		system->RegisterEnemy(this);
+		System->RegisterEnemy(this);
 	}
 }
 

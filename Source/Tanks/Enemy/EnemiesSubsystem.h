@@ -17,15 +17,15 @@ class TANKS_API UEnemiesSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
-protected:
-	UPROPERTY()
-	TArray<ATurret*> Enemies;
-
 public:
 	void RegisterEnemy(ATurret* Enemy);
 	int GetEnemiesCount() const;
 
 	FOnAllEnemiesDied OnAllEnemiesDied;
+
+protected:
+	UPROPERTY()
+	TArray<ATurret*> Enemies;
 
 	UFUNCTION()
 	void OnEnemyDied(ATurret* DiedEnemy);

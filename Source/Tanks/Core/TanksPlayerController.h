@@ -14,12 +14,12 @@ class TANKS_API ATanksPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 protected:
-	bool IsDied = false;
+	bool bIsDied = false;
 
 public:
 	void ToggleInput(bool bInputEnabled);
 	void SetVisibility(bool bShouldBeHidden) const {GetPawn()->SetActorHiddenInGame(bShouldBeHidden);}
 	void ToggleTicking(bool bShouldTick) const {GetPawn()->SetActorTickEnabled(bShouldTick);}
-	bool HasDied() const {return IsDied;}
-	void ResetDeathState() {IsDied = false;}
+	bool HasDied() const {return bIsDied;}
+	void ResetDeathState() {bIsDied = false;}
 };

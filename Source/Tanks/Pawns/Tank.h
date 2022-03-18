@@ -20,34 +20,35 @@ class TANKS_API ATank : public ABasePawn
 	GENERATED_BODY()
 
 public:
-	virtual void BeginPlay() override;
+	FOnTankDie OnTankDie;
+
+
+protected:
 	ATank();
+	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
+	FVector GetMouseCursorImpactPoint() const;
 	virtual void OnDie() override;
-	
-	FOnTankDie OnTankDie;
-	
+	void Move(float Value);
+	void RotateBase(float Value);
+
+	bool bHasDestroyed = false;
+
+	UPROPERTY()
+	APlayerController* PlayerController = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseMovementSpeed = 0.f;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseRotationSpeed = 0.f;
 
-protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UCameraComponent* CameraComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USpringArmComponent* SpringArmComponent = nullptr;
-
-private:
-	FVector GetMouseCursorImpactPoint() const;
-	void Move(float Value);
-	void RotateBase(float Value);
-
-	bool bHasDied = false;
-
-	UPROPERTY()
-	APlayerController* PlayerController = nullptr;
+	
+	
 };
