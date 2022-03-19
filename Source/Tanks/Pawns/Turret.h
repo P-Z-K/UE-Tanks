@@ -14,7 +14,7 @@ UCLASS()
 class TANKS_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
-	
+
 public:
 	virtual void OnDie() override;
 	FOnTurretDie OnTurretDie;
@@ -30,13 +30,25 @@ protected:
 	void Debug();
 	bool IsInFireRange();
 	void TryFire();
-	void ToggleTimer(bool bShouldBeActivated);
+	bool HasRequiredAngleToShoot();
+
+	UFUNCTION()
+	void SetIsReloading(bool Value);
 
 	FTimerHandle FireRateTimerHandle;
+	FTimerDelegate Delegate;
+
+	bool bIsReloading = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float FireRate = 2.f;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,
+		meta=(AllowPrivateAccess, ToolTip=
+			"Start angle between turret's forward vector and the player position in which the turret starts shooting"
+		))
+	float StartAngleToShoot = 6.f;
+
 	UPROPERTY()
 	class ATanksPlayerController* PlayerController = nullptr;
 

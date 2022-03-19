@@ -39,11 +39,8 @@ void ATurret::WatchOver()
 	if (IsInFireRange() && !PlayerController->GetPawn()->IsHidden())
 	{
 		RotateTurret(PlayerController->GetPawn()->GetActorLocation());
-		ToggleTimer(true);
-		return;
+		TryFire();
 	}
-
-	ToggleTimer(false);
 }
 
 void ATurret::Debug_ShootingDistance()
@@ -82,29 +79,34 @@ bool ATurret::IsInFireRange()
 
 void ATurret::TryFire()
 {
-	if (IsInFireRange())
+	if (!IsInFireRange() || bIsReloading || !HasRequiredAngleToShoot())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Firing!"));
-		if (bEnableDebuggingShootingDistance)
-			Debug_Firing();
-		Fire();
-	}
-}
-
-void ATurret::ToggleTimer(bool bShouldBeActivated)
-{
-	if (bShouldBeActivated)
-	{
-		if (!FireRateTimerHandle.IsValid())
-		{
-			GetWorldTimerManager().SetTimer(FireRateTimerHandle, this, &ATurret::TryFire, FireRate, true);
-		}
 		return;
 	}
+	
+	if (bEnableDebuggingShootingDistance)
+		Debug_Firing();
+	
+	Fire();
+	bIsReloading = true;
+	GetWorldTimerManager().ClearTimer(FireRateTimerHandle);
+	Delegate = FTimerDelegate::CreateUObject(this, &ATurret::SetIsReloading, false);
+	GetWorldTimerManager().SetTimer(FireRateTimerHandle, Delegate, FireRate, false);
+}
 
-	if (GetWorldTimerManager().IsTimerActive(FireRateTimerHandle))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Pausing timer!"));
-		GetWorldTimerManager().ClearTimer(FireRateTimerHandle);
-	}
+bool ATurret::HasRequiredAngleToShoot()
+{
+	auto TargetDirectionToPlayer = PlayerController->GetPawn()->GetActorLocation() - GetActorLocation();
+	auto n2 = TargetDirectionToPlayer;
+	n2.Normalize();
+
+	float Cosinus = TurretMesh->GetForwardVector().CosineAngle2D(n2);
+	float Angle = FMath::RadiansToDegrees(FMath::Acos(Cosinus));
+
+	return Angle <= StartAngleToShoot;
+}
+
+void ATurret::SetIsReloading(bool Value)
+{
+	bIsReloading = Value;
 }
