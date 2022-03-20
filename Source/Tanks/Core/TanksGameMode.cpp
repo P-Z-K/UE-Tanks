@@ -63,6 +63,11 @@ void ATanksGameMode::HandleGameStart()
 		StartGameWidgetInstance->RemoveFromViewport();
 	}
 
+	if (BackgroundMusic)
+	{
+		UGameplayStatics::PlaySound2D(this, BackgroundMusic);
+	}
+
 	if (CountdownEndSound)
 	{
 		auto Location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();

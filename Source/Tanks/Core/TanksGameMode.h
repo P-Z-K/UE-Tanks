@@ -66,4 +66,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USoundBase* CountdownEndSound = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundBase* BackgroundMusic = nullptr;
 };
