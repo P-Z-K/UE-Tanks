@@ -26,8 +26,19 @@ void ATanksGameMode::DisplayCountdown()
 {
 	StartGameWidgetInstance = CreateWidget<UStartGameWidgetBase>(GetWorld(), CountdownWidget);
 	StartGameWidgetInstance->AddToViewport();
-	StartGameWidgetInstance->StartCountdown(StartDelay);
 	StartGameWidgetInstance->OnCountdownEnded.AddDynamic(this, &ATanksGameMode::HandleGameStart);
+	StartGameWidgetInstance->OnUpdateUI.AddDynamic(this, &ATanksGameMode::PlayCountdownSound);
+	StartGameWidgetInstance->StartCountdown(StartDelay);
+}
+
+void ATanksGameMode::PlayCountdownSound()
+{
+	if (CountdownSound)
+	{
+		auto Location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, CountdownSound, Location);
+		UE_LOG(LogTemp, Warning, TEXT("cluck"));
+	}
 }
 
 void ATanksGameMode::PrepareLevel()
@@ -50,6 +61,12 @@ void ATanksGameMode::HandleGameStart()
 	if (StartGameWidgetInstance)
 	{
 		StartGameWidgetInstance->RemoveFromViewport();
+	}
+
+	if (CountdownEndSound)
+	{
+		auto Location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, CountdownEndSound, Location);
 	}
 	
 	EnablePlayer();

@@ -8,6 +8,7 @@
 #include "StartGameWidgetBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCountdownEnded);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnUpdateUI);
 /**
  * 
  */
@@ -19,17 +20,14 @@ class TANKS_API UStartGameWidgetBase : public UUserWidget
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintCallable, BlueprintAssignable)
 	FOnCountdownEnded OnCountdownEnded;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintCallable, BlueprintAssignable)
+	FOnUpdateUI OnUpdateUI;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void StartCountdown(float Time);
 
 protected:
-	UFUNCTION(BlueprintCallable)
-	void OnCountdownEnd();
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-	void UpdateUI();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* CountdownText = nullptr;
 };

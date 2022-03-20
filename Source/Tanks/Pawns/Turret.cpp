@@ -105,8 +105,3 @@ bool ATurret::HasRequiredAngleToShoot()
 
 	return Angle <= StartAngleToShoot;
 }
-
-void ATurret::SetIsReloading(bool Value)
-{
-	bIsReloading = Value;
-}

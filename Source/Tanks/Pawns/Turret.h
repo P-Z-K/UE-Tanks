@@ -33,7 +33,7 @@ protected:
 	bool HasRequiredAngleToShoot();
 
 	UFUNCTION()
-	void SetIsReloading(bool Value);
+	void SetIsReloading(bool Value) {bIsReloading = Value;};
 
 	FTimerHandle FireRateTimerHandle;
 	FTimerDelegate Delegate;

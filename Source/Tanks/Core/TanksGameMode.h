@@ -31,6 +31,9 @@ protected:
 	UFUNCTION()
 	void HandleGameStart();
 
+	UFUNCTION()
+	void PlayCountdownSound();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
 	float StartDelay = 10.f;
 	
@@ -57,4 +60,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UStartGameWidgetBase> CountdownWidget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundBase* CountdownSound = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundBase* CountdownEndSound = nullptr;
 };

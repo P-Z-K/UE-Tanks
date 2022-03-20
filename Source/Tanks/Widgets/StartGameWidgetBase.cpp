@@ -2,8 +2,3 @@
 
 
 #include "StartGameWidgetBase.h"
-
-void UStartGameWidgetBase::OnCountdownEnd()
-{
-	OnCountdownEnded.Broadcast();
-}
