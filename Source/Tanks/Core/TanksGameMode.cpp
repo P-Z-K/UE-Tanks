@@ -6,13 +6,21 @@
 #include "Kismet/GameplayStatics.h"
 #include "TanksPlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/AudioComponent.h"
+#include "Tanks/Audio/AudioManager.h"
 #include "Tanks/Enemy/EnemiesSubsystem.h"
 #include "Tanks/Pawns/Tank.h"
 #include "Tanks/Widgets/StartGameWidgetBase.h"
 
+ATanksGameMode::ATanksGameMode()
+{
+}
+
 void ATanksGameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	AudioManagerInstance = NewObject<UAudioManager>(this, AudioManager);
+	
 	HandlePreStart();
 }
 
@@ -33,12 +41,7 @@ void ATanksGameMode::DisplayCountdown()
 
 void ATanksGameMode::PlayCountdownSound()
 {
-	if (CountdownSound)
-	{
-		auto Location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-		UGameplayStatics::PlaySoundAtLocation(this, CountdownSound, Location);
-		UE_LOG(LogTemp, Warning, TEXT("cluck"));
-	}
+	AudioManagerInstance->PlayClockSound();
 }
 
 void ATanksGameMode::PrepareLevel()
@@ -58,20 +61,12 @@ void ATanksGameMode::PrepareLevel()
 
 void ATanksGameMode::HandleGameStart()
 {
+	AudioManagerInstance->PlayCountdownEndSound();
+	AudioManagerInstance->PlayBackgroundMusic();
+	
 	if (StartGameWidgetInstance)
 	{
 		StartGameWidgetInstance->RemoveFromViewport();
-	}
-
-	if (BackgroundMusic)
-	{
-		UGameplayStatics::PlaySound2D(this, BackgroundMusic);
-	}
-
-	if (CountdownEndSound)
-	{
-		auto Location = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-		UGameplayStatics::PlaySoundAtLocation(this, CountdownEndSound, Location);
 	}
 	
 	EnablePlayer();
@@ -94,9 +89,15 @@ void ATanksGameMode::EnablePlayer()
 
 void ATanksGameMode::HandleGameOver()
 {
+	HandleGameEnd();
+	GameOverWidgetInstance->AddToViewport();
+}
+
+void ATanksGameMode::HandleGameEnd()
+{
 	StartGameWidgetInstance->OnCountdownEnded.RemoveAll(this);
 	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
-	GameOverWidgetInstance->AddToViewport();
+	AudioManagerInstance->StopBackgroundMusic();
 	DisablePlayer();
 }
 
@@ -111,9 +112,7 @@ void ATanksGameMode::DisablePlayer()
 
 void ATanksGameMode::HandleWin()
 {
-	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
 	WinWidgetInstance->AddToViewport();
-	DisablePlayer();
 }
 
 

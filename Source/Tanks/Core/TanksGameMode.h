@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Tanks/Audio/AudioManager.h"
 #include "TanksGameMode.generated.h"
 
 class ATanksPlayerController;
@@ -18,15 +19,22 @@ class TANKS_API ATanksGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 protected:
+	ATanksGameMode();
 	virtual void BeginPlay() override;
 	
 	void HandlePreStart();
+	void HandleGameEnd();
 	void PrepareLevel();
 	void DisplayCountdown();
+	
 	void EnablePlayer();
-	void HandleGameOver();
-	void HandleWin();
 	void DisablePlayer();
+
+	UFUNCTION()
+	void HandleGameOver();
+
+	UFUNCTION()
+	void HandleWin();
 
 	UFUNCTION()
 	void HandleGameStart();
@@ -34,11 +42,17 @@ protected:
 	UFUNCTION()
 	void PlayCountdownSound();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float StartDelay = 10.f;
 	
 	UPROPERTY()
 	UStartGameWidgetBase* StartGameWidgetInstance = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UAudioManager> AudioManager;
+
+	UPROPERTY()
+	UAudioManager* AudioManagerInstance = nullptr;
 	
 	UPROPERTY()
 	ATanksPlayerController* PlayerController = nullptr;
@@ -60,13 +74,4 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UStartGameWidgetBase> CountdownWidget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USoundBase* CountdownSound = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USoundBase* CountdownEndSound = nullptr;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	USoundBase* BackgroundMusic = nullptr;
 };
