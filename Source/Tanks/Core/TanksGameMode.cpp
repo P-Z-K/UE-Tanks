@@ -5,8 +5,6 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "TanksPlayerController.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/AudioComponent.h"
 #include "Tanks/Audio/AudioManager.h"
 #include "Tanks/Enemy/EnemiesSubsystem.h"
 #include "Tanks/Pawns/Tank.h"
@@ -21,6 +19,9 @@ void ATanksGameMode::BeginPlay()
 	Super::BeginPlay();
 	AudioManagerInstance = NewObject<UAudioManager>(this, AudioManager);
 	
+	WidgetManagerInstance = NewObject<UWidgetManager>(this, WidgetManager);
+	WidgetManagerInstance->Initialize();
+	
 	HandlePreStart();
 }
 
@@ -32,11 +33,10 @@ void ATanksGameMode::HandlePreStart()
 
 void ATanksGameMode::DisplayCountdown()
 {
-	StartGameWidgetInstance = CreateWidget<UStartGameWidgetBase>(GetWorld(), CountdownWidget);
-	StartGameWidgetInstance->AddToViewport();
-	StartGameWidgetInstance->OnCountdownEnded.AddDynamic(this, &ATanksGameMode::HandleGameStart);
-	StartGameWidgetInstance->OnUpdateUI.AddDynamic(this, &ATanksGameMode::PlayCountdownSound);
-	StartGameWidgetInstance->StartCountdown(StartDelay);
+	WidgetManagerInstance->GetStartGameWidget()->AddToViewport();
+	WidgetManagerInstance->GetStartGameWidget()->OnCountdownEnded.AddDynamic(this, &ATanksGameMode::HandleGameStart);
+	WidgetManagerInstance->GetStartGameWidget()->OnUpdateUI.AddDynamic(this, &ATanksGameMode::PlayCountdownSound);
+	WidgetManagerInstance->GetStartGameWidget()->StartCountdown(StartDelay);
 }
 
 void ATanksGameMode::PlayCountdownSound()
@@ -63,11 +63,9 @@ void ATanksGameMode::HandleGameStart()
 {
 	AudioManagerInstance->PlayCountdownEndSound();
 	AudioManagerInstance->PlayBackgroundMusic();
+
+	WidgetManagerInstance->GetStartGameWidget()->RemoveFromViewport();
 	
-	if (StartGameWidgetInstance)
-	{
-		StartGameWidgetInstance->RemoveFromViewport();
-	}
 	
 	EnablePlayer();
 
@@ -75,9 +73,6 @@ void ATanksGameMode::HandleGameStart()
 
 	Player->OnTankDie.AddUObject(this, &ATanksGameMode::HandleGameOver);
 	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->OnAllEnemiesDied.AddUObject(this, &ATanksGameMode::HandleWin);
-
-	GameOverWidgetInstance = CreateWidget<UUserWidget>(PlayerController, GameOverWidget);
-	WinWidgetInstance = CreateWidget<UUserWidget>(PlayerController, WinWidget);
 }
 
 void ATanksGameMode::EnablePlayer()
@@ -90,12 +85,12 @@ void ATanksGameMode::EnablePlayer()
 void ATanksGameMode::HandleGameOver()
 {
 	HandleGameEnd();
-	GameOverWidgetInstance->AddToViewport();
+	WidgetManagerInstance->GetGameOverWidget()->AddToViewport();
 }
 
 void ATanksGameMode::HandleGameEnd()
 {
-	StartGameWidgetInstance->OnCountdownEnded.RemoveAll(this);
+	WidgetManagerInstance->GetStartGameWidget()->OnCountdownEnded.RemoveAll(this);
 	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
 	AudioManagerInstance->StopBackgroundMusic();
 	DisablePlayer();
@@ -112,7 +107,7 @@ void ATanksGameMode::DisablePlayer()
 
 void ATanksGameMode::HandleWin()
 {
-	WinWidgetInstance->AddToViewport();
+	WidgetManagerInstance->GetWinWidget()->AddToViewport();
 }
 
 

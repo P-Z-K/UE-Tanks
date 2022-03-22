@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Tanks/Audio/AudioManager.h"
+#include "Tanks/Widgets/WidgetManager.h"
 #include "TanksGameMode.generated.h"
 
 class ATanksPlayerController;
@@ -44,34 +45,22 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float StartDelay = 10.f;
-	
-	UPROPERTY()
-	UStartGameWidgetBase* StartGameWidgetInstance = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UAudioManager> AudioManager;
 
 	UPROPERTY()
 	UAudioManager* AudioManagerInstance = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UWidgetManager> WidgetManager;
+
+	UPROPERTY()
+	UWidgetManager* WidgetManagerInstance = nullptr;
 	
 	UPROPERTY()
 	ATanksPlayerController* PlayerController = nullptr;
 	
 	UPROPERTY()
 	ATank* Player = nullptr;
-	
-	UPROPERTY()
-	UUserWidget* GameOverWidgetInstance = nullptr;
-	
-	UPROPERTY()
-	UUserWidget* WinWidgetInstance = nullptr;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UUserWidget> GameOverWidget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UUserWidget> WinWidget;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UStartGameWidgetBase> CountdownWidget;
 };
