@@ -17,7 +17,11 @@ class TANKS_API ATurret : public ABasePawn
 
 public:
 	virtual void OnDie() override;
+	void Enable();
+	void Disable();
 	FOnTurretDie OnTurretDie;
+
+	void RestartHealth() const;
 
 protected:
 	virtual void BeginPlay() override;

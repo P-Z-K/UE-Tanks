@@ -9,8 +9,8 @@
 void UWidgetManager::Initialize()
 {
 	StartGameWidgetInstance = CreateWidget<UStartGameWidgetBase>(GetWorld(), StartGameWidget);
-	GameOverWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), GameOverWidget);
-	WinWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), WinWidget);
+	GameOverWidgetInstance = CreateWidget<UGameEndWidgetBase>(GetWorld(), GameOverWidget);
+	WinWidgetInstance = CreateWidget<UGameEndWidgetBase>(GetWorld(), WinWidget);
 }
 
 UWorld* UWidgetManager::GetWorld() const

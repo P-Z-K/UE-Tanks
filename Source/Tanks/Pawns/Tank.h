@@ -22,6 +22,8 @@ class TANKS_API ATank : public ABasePawn
 public:
 	FOnTankDie OnTankDie;
 
+	void SetStartPosition(const FVector& Position, const FRotator& Rotation);
+
 
 protected:
 	ATank();

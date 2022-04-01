@@ -10,6 +10,7 @@ void UEnemiesSubsystem::RegisterEnemy(ATurret* Enemy)
 {
 	Enemy->OnTurretDie.AddUObject(this, &UEnemiesSubsystem::OnEnemyDied);
 	Enemies.Add(Enemy);
+	++EnemiesCount;
 }
 
 int UEnemiesSubsystem::GetEnemiesCount() const
@@ -17,14 +18,26 @@ int UEnemiesSubsystem::GetEnemiesCount() const
 	return Enemies.Num();
 }
 
+void UEnemiesSubsystem::ReviveEnemies()
+{
+	EnemiesCount = Enemies.Num();
+	for (const auto& e : Enemies)
+	{
+		e->OnTurretDie.AddUObject(this, &UEnemiesSubsystem::OnEnemyDied);
+		e->Enable();
+		e->RestartHealth();
+	}
+}
+
 void UEnemiesSubsystem::OnEnemyDied(ATurret* DiedEnemy)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Enemy %s has died!"), *DiedEnemy->GetName());
 
-	Enemies.Remove(DiedEnemy);
+	--EnemiesCount;
 	DiedEnemy->OnTurretDie.Clear();
-	DiedEnemy->Destroy();
-	if (Enemies.Num() <= 0)
+	DiedEnemy->Disable();
+	
+	if (EnemiesCount <= 0)
 	{
 		OnAllEnemiesDied.Broadcast();
 	}

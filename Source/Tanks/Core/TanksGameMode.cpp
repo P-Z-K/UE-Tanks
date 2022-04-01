@@ -5,6 +5,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "TanksPlayerController.h"
+#include "Components/Button.h"
 #include "Tanks/Audio/AudioManager.h"
 #include "Tanks/Enemy/EnemiesSubsystem.h"
 #include "Tanks/Pawns/Tank.h"
@@ -18,11 +19,20 @@ void ATanksGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	AudioManagerInstance = NewObject<UAudioManager>(this, AudioManager);
-	
+
 	WidgetManagerInstance = NewObject<UWidgetManager>(this, WidgetManager);
 	WidgetManagerInstance->Initialize();
-	
+
+	SubscribeButtonsOnClickEvents(WidgetManagerInstance->GetWinWidget());
+	SubscribeButtonsOnClickEvents(WidgetManagerInstance->GetGameOverWidget());
+
 	HandlePreStart();
+}
+
+void ATanksGameMode::SubscribeButtonsOnClickEvents(UGameEndWidgetBase* Widget)
+{
+	Widget->GetGameEndButtonsGroup()->GetAgreeButton()->OnClicked.AddDynamic(this, &ATanksGameMode::RestartGame);
+	Widget->GetGameEndButtonsGroup()->GetDisagreeButton()->OnClicked.AddDynamic(this, &ATanksGameMode::RestartGame);
 }
 
 void ATanksGameMode::HandlePreStart()
@@ -33,6 +43,7 @@ void ATanksGameMode::HandlePreStart()
 
 void ATanksGameMode::DisplayCountdown()
 {
+	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
 	WidgetManagerInstance->GetStartGameWidget()->AddToViewport();
 	WidgetManagerInstance->GetStartGameWidget()->OnCountdownEnded.AddDynamic(this, &ATanksGameMode::HandleGameStart);
 	WidgetManagerInstance->GetStartGameWidget()->OnUpdateUI.AddDynamic(this, &ATanksGameMode::PlayCountdownSound);
@@ -65,8 +76,8 @@ void ATanksGameMode::HandleGameStart()
 	AudioManagerInstance->PlayBackgroundMusic();
 
 	WidgetManagerInstance->GetStartGameWidget()->RemoveFromViewport();
-	
-	
+
+
 	EnablePlayer();
 
 	Player = Cast<ATank>(PlayerController->GetPawn());
@@ -91,9 +102,18 @@ void ATanksGameMode::HandleGameOver()
 void ATanksGameMode::HandleGameEnd()
 {
 	WidgetManagerInstance->GetStartGameWidget()->OnCountdownEnded.RemoveAll(this);
+	WidgetManagerInstance->GetStartGameWidget()->OnUpdateUI.RemoveAll(this);
 	GetWorld()->GetGameViewport()->RemoveAllViewportWidgets();
 	AudioManagerInstance->StopBackgroundMusic();
 	DisablePlayer();
+}
+
+void ATanksGameMode::RestartGame()
+{
+	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->ReviveEnemies();
+	auto start = this->FindPlayerStart(PlayerController);
+	Player->SetStartPosition(start->GetActorLocation(), start->GetActorRotation());
+	HandlePreStart();
 }
 
 void ATanksGameMode::DisablePlayer()
@@ -107,7 +127,6 @@ void ATanksGameMode::DisablePlayer()
 
 void ATanksGameMode::HandleWin()
 {
+	HandleGameEnd();
 	WidgetManagerInstance->GetWinWidget()->AddToViewport();
 }
-
-

@@ -16,6 +16,8 @@ class TANKS_API UHealthComponent : public UActorComponent
 public:
 	FOnHealthWentBelowZero OnHealthWentBelowZero;
 
+	FORCEINLINE void RestartHealth() {Health = MaxHealth;}
+
 protected:
 	virtual void BeginPlay() override;
 

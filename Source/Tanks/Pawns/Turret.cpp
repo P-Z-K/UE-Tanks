@@ -6,8 +6,11 @@
 #include "DrawDebugHelpers.h"
 #include "Tank.h"
 #include "Kismet/GameplayStatics.h"
+#include "Tanks/Core/HealthComponent.h"
 #include "Tanks/Core/TanksPlayerController.h"
 #include "Tanks/Enemy/EnemiesSubsystem.h"
+
+
 
 void ATurret::BeginPlay()
 {
@@ -32,6 +35,20 @@ void ATurret::OnDie()
 {
 	Super::OnDie();
 	OnTurretDie.Broadcast(this);
+}
+
+void ATurret::Enable()
+{
+	this->SetActorTickEnabled(true);
+	this->SetActorHiddenInGame(false);
+	this->SetActorEnableCollision(true);
+}
+
+void ATurret::Disable()
+{
+	this->SetActorTickEnabled(false);
+	this->SetActorHiddenInGame(true);
+	this->SetActorEnableCollision(false);
 }
 
 void ATurret::WatchOver()
@@ -104,4 +121,13 @@ bool ATurret::HasRequiredAngleToShoot()
 	float Angle = FMath::RadiansToDegrees(FMath::Acos(Cosinus));
 
 	return Angle <= StartAngleToShoot;
+}
+
+
+void ATurret::RestartHealth() const
+{
+	if (HealthComponent)
+	{
+		HealthComponent->RestartHealth();
+	}
 }

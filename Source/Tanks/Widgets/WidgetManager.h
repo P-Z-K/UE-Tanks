@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameEndWidgetBase.h"
 #include "UObject/Object.h"
 #include "WidgetManager.generated.h"
 
@@ -17,8 +18,8 @@ class TANKS_API UWidgetManager : public UObject
 public:
 	void Initialize();
 	UStartGameWidgetBase* GetStartGameWidget() const {return StartGameWidgetInstance;}
-	UUserWidget* GetWinWidget() const {return WinWidgetInstance;}
-	UUserWidget* GetGameOverWidget() const {return GameOverWidgetInstance;}
+	UGameEndWidgetBase* GetWinWidget() const {return WinWidgetInstance;}
+	UGameEndWidgetBase* GetGameOverWidget() const {return GameOverWidgetInstance;}
 
 protected:
 	virtual UWorld* GetWorld() const override;
@@ -36,8 +37,8 @@ protected:
 	UStartGameWidgetBase* StartGameWidgetInstance = nullptr;
 	
 	UPROPERTY()
-	UUserWidget* GameOverWidgetInstance = nullptr;
+	UGameEndWidgetBase* GameOverWidgetInstance = nullptr;
 
 	UPROPERTY()
-	UUserWidget* WinWidgetInstance = nullptr;
+	UGameEndWidgetBase* WinWidgetInstance = nullptr;
 };

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Tanks/Audio/AudioManager.h"
+#include "Tanks/Widgets/GameEndWidgetBase.h"
 #include "Tanks/Widgets/WidgetManager.h"
 #include "TanksGameMode.generated.h"
 
@@ -27,6 +28,10 @@ protected:
 	void HandleGameEnd();
 	void PrepareLevel();
 	void DisplayCountdown();
+	void SubscribeButtonsOnClickEvents(UGameEndWidgetBase* Widget);
+
+	UFUNCTION()
+	void RestartGame();
 	
 	void EnablePlayer();
 	void DisablePlayer();
@@ -63,4 +68,6 @@ protected:
 	
 	UPROPERTY()
 	ATank* Player = nullptr;
+
+	FTimerHandle RestartGameTimerHandle;
 };

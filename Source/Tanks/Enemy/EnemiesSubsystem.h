@@ -20,6 +20,7 @@ class TANKS_API UEnemiesSubsystem : public UWorldSubsystem
 public:
 	void RegisterEnemy(ATurret* Enemy);
 	int GetEnemiesCount() const;
+	void ReviveEnemies();
 
 	FOnAllEnemiesDied OnAllEnemiesDied;
 
@@ -29,4 +30,7 @@ protected:
 
 	UFUNCTION()
 	void OnEnemyDied(ATurret* DiedEnemy);
+
+private:
+	int EnemiesCount;
 };

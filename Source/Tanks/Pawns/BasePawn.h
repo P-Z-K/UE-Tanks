@@ -14,6 +14,9 @@ class TANKS_API ABasePawn : public APawn
 {
 	GENERATED_BODY()
 
+public:
+	FORCEINLINE UHealthComponent* GetHealthComponent() const {return HealthComponent;} 
+
 protected:
 	ABasePawn();
 	virtual void BeginPlay() override;

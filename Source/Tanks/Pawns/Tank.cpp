@@ -14,6 +14,13 @@ void ATank::BeginPlay()
 	PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 }
 
+void ATank::SetStartPosition(const FVector& Position, const FRotator& Rotation)
+{
+	this->SetActorLocation(Position);
+	this->SetActorRotation(Rotation);
+	TurretMesh->SetWorldRotation(Rotation);
+}
+
 ATank::ATank()
 {
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("Spring arm component");
