@@ -2,3 +2,8 @@
 
 
 #include "GameEndWidgetBase.h"
+
+void UGameEndWidgetBase::ToggleButtonsInteraction(ESlateVisibility NewVisiblity)
+{
+	GameEndButtonsGroup->SetVisibility(NewVisiblity);
+}

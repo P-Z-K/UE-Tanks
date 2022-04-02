@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameEndButtonsGroup.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/BackgroundBlur.h"
+#include "Components/Image.h"
+#include "Components/SizeBox.h"
 #include "GameEndWidgetBase.generated.h"
 
 class UTextBlock;
@@ -20,9 +23,32 @@ public:
 	FORCEINLINE UGameEndButtonsGroup* GetGameEndButtonsGroup() const {return GameEndButtonsGroup;}
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
-	UTextBlock* InfoMessage;
+	UFUNCTION(BlueprintCallable)
+	void ToggleButtonsInteraction(ESlateVisibility NewVisiblity);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	
+	UPROPERTY(Transient, BlueprintReadWrite, meta=(BindWidgetAnim))
+	UWidgetAnimation* ButtonsGroupFadeInAnim;
+
+	UPROPERTY(Transient, BlueprintReadWrite, meta=(BindWidgetAnim))
+	UWidgetAnimation* FadeInAnim;
+
+	UPROPERTY(Transient, BlueprintReadWrite, meta=(BindWidgetAnim))
+	UWidgetAnimation* MovingVerticalSliderAnim;
+
+	
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UTextBlock* InfoMessage;
+	
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UImage* FadingInBackground;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UImage* MovingVerticalSlider;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UBackgroundBlur* BlurredBackground;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UGameEndButtonsGroup* GameEndButtonsGroup;
 };
