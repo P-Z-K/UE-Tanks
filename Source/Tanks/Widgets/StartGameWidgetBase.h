@@ -28,6 +28,6 @@ public:
 	void StartCountdown(float Time);
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* CountdownText = nullptr;
 };

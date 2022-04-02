@@ -46,10 +46,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float BaseRotationSpeed = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UCameraComponent* CameraComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USpringArmComponent* SpringArmComponent = nullptr;
 	
 	

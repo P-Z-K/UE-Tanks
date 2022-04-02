@@ -30,19 +30,19 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float TurretRotationSpeed = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UCapsuleComponent* CapsuleComponent = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* BaseMesh = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* TurretMesh = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	USceneComponent* ProjectileSpawnPoint = nullptr;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UHealthComponent* HealthComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

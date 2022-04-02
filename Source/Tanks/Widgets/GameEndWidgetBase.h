@@ -37,18 +37,18 @@ protected:
 	UWidgetAnimation* MovingVerticalSliderAnim;
 
 	
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* InfoMessage;
 	
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UImage* FadingInBackground;
 
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UImage* MovingVerticalSlider;
 
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UBackgroundBlur* BlurredBackground;
 
-	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(BindWidget))
 	UGameEndButtonsGroup* GameEndButtonsGroup;
 };

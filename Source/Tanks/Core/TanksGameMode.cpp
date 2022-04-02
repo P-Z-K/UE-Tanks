@@ -120,8 +120,8 @@ void ATanksGameMode::HandleGameEnd()
 void ATanksGameMode::RestartGame()
 {
 	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->ReviveEnemies();
-	auto start = this->FindPlayerStart(PlayerController);
-	Player->SetStartPosition(start->GetActorLocation(), start->GetActorRotation());
+	auto Start = this->FindPlayerStart(PlayerController);
+	Player->SetStartPosition(Start->GetActorLocation(), Start->GetActorRotation());
 	HandlePreStart();
 }
 
