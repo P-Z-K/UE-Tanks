@@ -31,6 +31,9 @@ protected:
 	void SubscribeButtonsOnClickEvents(UGameEndWidgetBase* Widget);
 
 	UFUNCTION()
+	void QuitGame();
+
+	UFUNCTION()
 	void RestartGame();
 	
 	void EnablePlayer();

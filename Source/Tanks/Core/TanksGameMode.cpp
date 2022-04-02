@@ -32,13 +32,22 @@ void ATanksGameMode::BeginPlay()
 void ATanksGameMode::SubscribeButtonsOnClickEvents(UGameEndWidgetBase* Widget)
 {
 	Widget->GetGameEndButtonsGroup()->GetAgreeButton()->OnClicked.AddDynamic(this, &ATanksGameMode::RestartGame);
-	Widget->GetGameEndButtonsGroup()->GetDisagreeButton()->OnClicked.AddDynamic(this, &ATanksGameMode::RestartGame);
+	Widget->GetGameEndButtonsGroup()->GetDisagreeButton()->OnClicked.AddDynamic(this, &ATanksGameMode::QuitGame);
 }
+
+void ATanksGameMode::QuitGame()
+{
+	if (PlayerController)
+	{
+		PlayerController->ConsoleCommand("quit");
+	}
+}
+
 
 void ATanksGameMode::HandlePreStart()
 {
-	DisplayCountdown();
 	PrepareLevel();
+	DisplayCountdown();
 }
 
 void ATanksGameMode::DisplayCountdown()
