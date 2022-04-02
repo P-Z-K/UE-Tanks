@@ -105,6 +105,7 @@ void ATanksGameMode::EnablePlayer()
 void ATanksGameMode::HandleGameOver()
 {
 	HandleGameEnd();
+	PlayerController->SetVisibility(true);
 	WidgetManagerInstance->GetGameOverWidget()->AddToViewport();
 }
 
@@ -130,7 +131,6 @@ void ATanksGameMode::DisablePlayer()
 	GetWorld()->GetSubsystem<UEnemiesSubsystem>()->OnAllEnemiesDied.RemoveAll(this);
 	Player->OnTankDie.RemoveAll(this);
 	PlayerController->ToggleTicking(false);
-	PlayerController->SetVisibility(true);
 	PlayerController->ToggleInput(false);
 }
 
